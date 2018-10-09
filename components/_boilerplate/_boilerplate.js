@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import {StyleSheet,Text,View } from 'react-native';
 
-export default class Home extends Component<Props>  {
+export default class BoilerPlate extends Component<Props>  {
     render(){
             return (
                 <View>
@@ -11,3 +11,6 @@ export default class Home extends Component<Props>  {
             );
     }
 }
+
+const styles = StyleSheet.create({
+});

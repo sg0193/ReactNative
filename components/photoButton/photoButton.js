@@ -1,12 +1,23 @@
 import React,{Component} from 'react';
-import {StyleSheet,Text,View } from 'react-native';
+import {StyleSheet,Text,View,Button } from 'react-native';
 
-export default class BoilerPlate extends Component<Props>  {
+
+export default class PhotoButton extends Component<Props>  {
+   constructor(props){
+            super(props);
+   }
+
+   onPress(){
+    console.log("Button Pressed");
+   }
     render(){
             return (
                 <View>
-                    <Text>Sravan Gurijala</Text>
-                    <Text>Email: sravan.guri@gmail.com</Text>
+                    <Button
+                    onPress={this.onPress.bind(this)}
+                    title="Photo"
+                    color='red'
+                    />
                 </View>
             );
     }
