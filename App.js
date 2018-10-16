@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import React, { Component } from 'react';
+import { Platform, StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 import Home from './components/home/home';
 
 const instructions = Platform.select({
@@ -15,7 +15,7 @@ export default class App extends Component<Props> {
   render() {
     return (
       <View>
-       <Home/>
+        <Home/>
       </View>
     );
   }
