@@ -1,22 +1,23 @@
 import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View, TouchableHighlight } from 'react-native';
+import {createStackNavigator} from 'react-navigation';
 import Home from './components/home/home';
+import AddContact from './components/addContact/addContact';
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+const RootStack = createStackNavigator(
+  {
+    Home :{screen:Home},
+    AddContact:{screen:AddContact}
+  },
+  {
+    initialRoute: 'Home'
+  }
+);
 
-type Props = {};
-
-export default class App extends Component<Props> {
+export default class App extends Component {
   render() {
     return (
-      <View>
-        <Home/>
-      </View>
+     <RootStack/>
     );
   }
 }
