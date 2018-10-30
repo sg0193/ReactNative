@@ -1,6 +1,7 @@
 import React,{Component} from 'react';
-import {StyleSheet,Text,View, FlatList } from 'react-native';
+import {StyleSheet,Text,View, FlatList, AsyncStorage } from 'react-native';
 import Contact from '../contacts/contacts';
+import {NavigationEvents} from 'react-navigation'; 
 
 export default class ContactList extends Component<Props>  {
     constructor(props)
@@ -11,28 +12,22 @@ export default class ContactList extends Component<Props>  {
         }
     }
 
-    componentWillMount() {
+    onFocus() {
         this.getContacts();
     }
 
     getContacts() {
-       const myContacts = [
-            {
-                name: "Sravan Gurijala",
-                email: "sravan.guri@gmail.com"
-            },
-            {
-                name: "Nethra Avula",
-                email: "nethra275@gmail.com"
-           }
-        ];
-
-        this.setState({
-            contacts:myContacts
+        AsyncStorage
+        .getItem('contacts')
+        .then( (value) => {
+            if(!!value){
+                let myContacts = JSON.parse(value);
+                this.setState({contacts: JSON.parse(value)});
+            }
         })
     }
 
-    _keyExtractor = (item,index) => (item.email).toString()
+    _keyExtractor = (item,index) => (item.id).toString()
     renderItem(contact){
         return(
             <View>
@@ -43,6 +38,8 @@ export default class ContactList extends Component<Props>  {
     render(){
             return (
                 <View>
+                    <NavigationEvents 
+                       onWillFocus = {() => this.onFocus()} />
                     <FlatList
                      data={this.state.contacts}
                      keyExtractor = {this._keyExtractor}

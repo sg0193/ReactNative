@@ -3,11 +3,13 @@ import { Platform, StyleSheet, Text, View, TouchableHighlight } from 'react-nati
 import {createStackNavigator} from 'react-navigation';
 import Home from './components/home/home';
 import AddContact from './components/addContact/addContact';
+import CameraScreen from './components/cameraScreen/cameraScreen';
 
 const RootStack = createStackNavigator(
   {
     Home :{screen:Home},
-    AddContact:{screen:AddContact}
+    AddContact:{screen:AddContact},
+    CameraScreen: {screen:CameraScreen},
   },
   {
     initialRoute: 'Home'

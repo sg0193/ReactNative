@@ -1,14 +1,14 @@
 import React,{Component} from 'react';
 import { StyleSheet, Text,View,Button } from 'react-native';
+import {withNavigation} from 'react-navigation';
 
-
-export default class PhotoButton extends Component<Props>  {
+class PhotoButton extends Component<Props>  {
    constructor(props){
             super(props);
    }
 
    onPress(){
-    console.log("Button Pressed");
+    this.props.navigation.navigate('CameraScreen');
    }
     render(){
             return (
@@ -25,3 +25,5 @@ export default class PhotoButton extends Component<Props>  {
 
 const styles = StyleSheet.create({
 });
+
+export default withNavigation (PhotoButton);
