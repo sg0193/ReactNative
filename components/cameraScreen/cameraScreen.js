@@ -2,6 +2,7 @@
 import React,{Component} from 'react';
 import {StyleSheet,Text,View,Dimensions, TouchableOpacity } from 'react-native';
 import {RNCamera} from 'react-native-camera';
+import Mailer from 'react-native-mail';
 
 export default class CameraScreen extends Component<Props>  {
     constructor(props)
@@ -19,6 +20,23 @@ export default class CameraScreen extends Component<Props>  {
             const data = await camera.takePictureAsync(options);
             console.log(data.uri);
 
+            this.sendEmail(data.uri);
+    }
+
+    sendEmail(uri)
+    {
+        Mailer.mail({
+            subject : 'Hello from React Native Class',
+            recipients: [this.props.navigation.state.params.email],
+            ccRecipients: [],
+            body: '<b>Hello</b>',
+            isHTML: true,
+            attachement: {
+                path: '',
+                type: '',
+                name: '',
+            }
+        }, (error) => {});
     }
 
     render(){

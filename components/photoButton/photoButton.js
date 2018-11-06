@@ -8,7 +8,7 @@ class PhotoButton extends Component<Props>  {
    }
 
    onPress(){
-    this.props.navigation.navigate('CameraScreen');
+    this.props.navigation.navigate('CameraScreen',{email: this.props.email});
    }
     render(){
             return (
