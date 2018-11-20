@@ -1,8 +1,9 @@
 
 import React,{Component} from 'react';
-import {StyleSheet,Text,View,Dimensions, TouchableOpacity } from 'react-native';
+import {StyleSheet,Text,View,Dimensions, TouchableOpacity, PermissionsAndroid } from 'react-native';
 import {RNCamera} from 'react-native-camera';
 import Mailer from 'react-native-mail';
+import RNFS from 'react-native-fs';
 
 export default class CameraScreen extends Component<Props>  {
     constructor(props)
@@ -18,13 +19,35 @@ export default class CameraScreen extends Component<Props>  {
             console.log('Take Picture');
             const options = {quality : 0.5, base64: true};
             const data = await camera.takePictureAsync(options);
-            console.log(data.uri);
+            console.log(data.base64);
 
-            this.sendEmail(data.uri);
+            this.saveFileToStorage(data);
     }
 
-    sendEmail(uri)
+    saveFileToStorage(photoData)
     {
+        const path= RNFS.ExternalStorageDirectoryPath +'/myphoto.jpg';
+        console.log('Path:' + path);
+        PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+            {
+                'title': 'App Requests Storage Permission',
+                'message': 'App would like to store files'
+            }
+        ).then (() => {
+            console.log('about to write my file');
+            RNFS.writeFile(path, photoData.base64, 'base64').then(() => {
+            console.log('File Written');
+            this.sendEmail(path);
+            })
+            .catch((err) =>{
+                console.log(err.message);
+            });
+        });
+    }
+    sendEmail(filePath)
+    {
+      //const path = filePath.substring('file://'.length, filePath.length);
         Mailer.mail({
             subject : 'Hello from React Native Class',
             recipients: [this.props.navigation.state.params.email],
@@ -32,11 +55,14 @@ export default class CameraScreen extends Component<Props>  {
             body: '<b>Hello</b>',
             isHTML: true,
             attachement: {
-                path: '',
-                type: '',
-                name: '',
+                path: filePath,
+                type: 'jpg',
+                name: 'photo.jpg',
+                //RNFS - React native file system
             }
-        }, (error) => {});
+        }, (error) => {
+            console.log(error.message);
+        });
     }
 
     render(){
